@@ -1,8 +1,8 @@
 const Koa = require('koa');
 const KoaLogger = require('koa-logger');
-const KoaBody = require('koa-body');
+const { koaBody } = require('koa-body');
 const cors = require('@koa/cors');
-const router = require('./routes');
+const router = require('./routes.js');
 const orm = require('./models');
 
 // Instancia de Koa
@@ -10,11 +10,11 @@ const app = new Koa();
 
 app.context.orm = orm;
 
-app.use(cors);
+// app.use(cors);
 
 // Middlewares de koa
 app.use(KoaLogger());
-app.use(KoaBody.koaBody());
+app.use(koaBody());
 
 // Router
 app.use(router.routes());
