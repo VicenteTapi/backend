@@ -15,11 +15,7 @@ router.get("user.show", "/:id", async(ctx) => {
 
 router.get("user.list", "/", async(ctx) => {
     try {
-        const user = await ctx.orm.User.findAll({
-            include: [
-                {model: ctx.orm.Jugador, required: true, include: [{model: ctx.orm.Partida, required: true}]}
-            ]
-        });
+        const user = await ctx.orm.User.findAll();
         ctx.body = user;
         ctx.status = 200;
     } catch (error) {
