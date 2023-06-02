@@ -52,9 +52,12 @@ router.get("partida.browse", "/browse/:id", async(ctx) => {
 router.post("partida.create", "/crear", async(ctx) => {
     try {
         const tienda = await ctx.orm.Tienda.create({
-            "item": "estrella",
-            "cantidad": 10,
-            "precio": 20
+            "estrellas": 10,
+            "dadoChico": 10,
+            "dadoGrande": 10,
+            "poder1": 10,
+            "poder2": 10,
+            "poder3": 10,
         });
         const partida = await ctx.orm.Partida.create({
             "ambiente": ctx.request.body.ambiente,
