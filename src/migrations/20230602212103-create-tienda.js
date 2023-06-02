@@ -9,13 +9,22 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      item: {
-        type: Sequelize.STRING
-      },
-      cantidad: {
+      estrellas: {
         type: Sequelize.INTEGER
       },
-      precio: {
+      dadoChico: {
+        type: Sequelize.INTEGER
+      },
+      dadoGrande: {
+        type: Sequelize.INTEGER
+      },
+      poder1: {
+        type: Sequelize.INTEGER
+      },
+      poder2: {
+        type: Sequelize.INTEGER
+      },
+      poder3: {
         type: Sequelize.INTEGER
       },
       createdAt: {
