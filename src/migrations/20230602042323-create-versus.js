@@ -2,18 +2,29 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Tableros', {
+    await queryInterface.createTable('Versus', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      ambiente: {
-        type: Sequelize.STRING
+      jugadorId: {
+        type: Sequelize.INTEGER,
+        references: {model: 'Jugadors', key: 'id'}
       },
-      coordenadas: {
-        type: Sequelize.STRING
+      partidaId: {
+        type: Sequelize.INTEGER,
+        references: {model: 'Partidas', key: 'id'}
+      },
+      minijuego: {
+        type: Sequelize.INTEGER
+      },
+      jugo: {
+        type: Sequelize.BOOLEAN
+      },
+      score: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -26,6 +37,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Tableros');
+    await queryInterface.dropTable('Versus');
   }
 };

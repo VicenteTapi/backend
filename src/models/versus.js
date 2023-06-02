@@ -13,9 +13,6 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.Jugador, {
         foreignKey: 'jugadorId'
       });
-      this.belongsTo(models.Minijuego, {
-        foreignKey: 'minijuegoId'
-      });
       this.belongsTo(models.Partida, {
         foreignKey: 'partidaId'
       });
@@ -23,8 +20,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   Versus.init({
     jugadorId: DataTypes.INTEGER,
-    minijuegoId: DataTypes.INTEGER,
     partidaId: DataTypes.INTEGER,
+    minijuego: DataTypes.INTEGER,
     jugo: DataTypes.BOOLEAN,
     score: DataTypes.INTEGER
   }, {

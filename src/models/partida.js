@@ -10,9 +10,6 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.belongsTo(models.Tablero, {
-        foreignKey: 'tableroId'
-      });
       this.belongsTo(models.Tienda, {
         foreignKey: 'tiendaId'
       });
@@ -25,9 +22,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Partida.init({
-    tableroId: DataTypes.INTEGER,
-    tiendaId: DataTypes.INTEGER,
-    turno: DataTypes.INTEGER
+    ambiente: DataTypes.STRING,
+    turno: DataTypes.INTEGER,
+    tiendaId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Partida',
