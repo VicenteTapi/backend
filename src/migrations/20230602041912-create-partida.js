@@ -9,16 +9,15 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      tableroId: {
-        type: Sequelize.INTEGER,
-        references: {model: 'Tableros', key: 'id'}
+      ambiente: {
+        type: Sequelize.STRING
+      },
+      turno: {
+        type: Sequelize.INTEGER
       },
       tiendaId: {
         type: Sequelize.INTEGER,
         references: {model: 'Tiendas', key: 'id'}
-      },
-      turno: {
-        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
