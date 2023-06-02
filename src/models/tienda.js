@@ -16,9 +16,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Tienda.init({
-    item: DataTypes.STRING,
-    cantidad: DataTypes.INTEGER,
-    precio: DataTypes.INTEGER
+    estrellas: DataTypes.INTEGER,
+    dadoChico: DataTypes.INTEGER,
+    dadoGrande: DataTypes.INTEGER,
+    poder1: DataTypes.INTEGER,
+    poder2: DataTypes.INTEGER,
+    poder3: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Tienda',
