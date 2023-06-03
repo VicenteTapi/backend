@@ -4,6 +4,7 @@ const partidas = require('./routes/partidas');
 const tienda = require('./routes/tienda');
 const poderes = require('./routes/poderes');
 const dado = require('./routes/dado');
+const versus = require('./routes/versus')
 
 
 const router = new Router();
