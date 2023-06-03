@@ -43,6 +43,7 @@ const tablero = {
   15: '2',
 };
 
+
 const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 router.post('dado.lanzar', '/lanzar', async (ctx) => {
