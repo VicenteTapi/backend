@@ -11,9 +11,9 @@ module.exports = {
       dadoGrande: 0,
       dadoChico: 0,
       userId: 1,
-      partidaId:1,
+      partidaId: 1,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
 
     },
     {
@@ -27,11 +27,11 @@ module.exports = {
       dadoGrande: 0,
       dadoChico: 0,
       userId: 2,
-      partidaId:1,
+      partidaId: 1,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
 
-    }
+    },
   ]),
   down: (QueryInterface) => QueryInterface.bulkInsert('Jugadors', null, {}),
-}           
+};
