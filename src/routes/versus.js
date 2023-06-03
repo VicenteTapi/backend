@@ -84,7 +84,7 @@ router.post("versus.jugar", "/jugar", async(ctx) => {
         if(todosHanJugado) {
             puntajes['ganador'] = ganador
             ctx.body = puntajes
-            ctx.status = 200
+            ctx.status = 201
         } else {
             ctx.status = 202
         }
