@@ -12,6 +12,7 @@ const casillas = {
     "5": "normal" 
 }
 const premio_dado = {1:"dadoChico", 2:"dadoGrande"}
+const minijuegos = {1:"Golpea a Bowser", 2:"Memorice", 3:"Evade"}
 const dados = {
     "dadoChico":[1,2,3],
     "dadoGrande":[4,5,6],
@@ -51,6 +52,11 @@ router.post("dado.lanzar", "/lanzar", async(ctx) => {
             where:{id: ctx.request.body.jugadorId}
         
         })
+        let informacion_relevante = {
+            "actual_posicion": "",
+            "actividad_casilla": "",
+            "minijuego": "no hay minijuego disponible"
+        };
         let posicion = jugador.posicion
         let informacion = ctx.request.body.tipo_de_dado
         let listaAsociada = dados[informacion];
@@ -81,16 +87,19 @@ router.post("dado.lanzar", "/lanzar", async(ctx) => {
         if (actividad_casilla=="gana estrella"){
             jugador.estrellas+=1
         }
+        if (actividad_casilla=="minijuego"){
+            let lista = [1,2,3]
+            let numero_respuesta = lista[getRandomInt(0, lista.length - 1)]
+            let nombre_minijuego = minijuegos[numero_respuesta]
+            informacion_relevante["minijuego"]=nombre_minijuego
+        }
         jugador.posicion = actual_posicion%16;
         await jugador.save();
 
         
         let llave_posicion = posicion.toString();
-
-        let informacion_relevante = {
-            "actual_posicion": posicion_casilla,
-            "actividad_casilla": actividad_casilla
-        };
+        informacion_relevante["actual_posicion"] = posicion_casilla
+        informacion_relevante["actividad_casilla"] = actividad_casilla
 
         ctx.body = [jugador, informacion_relevante];
         ctx.status = 201;
