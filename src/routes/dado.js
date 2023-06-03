@@ -41,7 +41,7 @@ const tablero = {
     14: "5",
     15: "2"
 }
-
+//La función getRandomInt se hizo con la ayuda de chatGPT
 let getRandomInt = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
