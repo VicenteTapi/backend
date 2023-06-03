@@ -5,7 +5,7 @@ module.exports = {
       clave: 'mario1',
       wins: 0,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
 
     },
     {
@@ -13,9 +13,9 @@ module.exports = {
       clave: 'luigi1',
       wins: 0,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
 
-    }
+    },
   ]),
   down: (QueryInterface) => QueryInterface.bulkInsert('Users', null, {}),
-}
+};
