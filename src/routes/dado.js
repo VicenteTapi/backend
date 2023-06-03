@@ -13,9 +13,9 @@ const casillas = {
 const premioDado = { 1: 'dadoChico', 2: 'dadoGrande' };
 const minijuegos = { 1: 'Golpea a Bowser', 2: 'Memorice', 3: 'Evade' };
 const dados = {
-  dadoChico: [1, 2, 3],
-  dadoGrande: [4, 5, 6],
-  dadoNormal: [1, 2, 3, 4, 5, 6],
+  "dadoChico": [1, 2, 3],
+  "dadoGrande": [4, 5, 6],
+  "dadoNormal": [1, 2, 3, 4, 5, 6],
 };
 
 // Para uso en front
