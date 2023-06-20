@@ -24,6 +24,8 @@ router.get('partida.list', '/:id', async (ctx) => {
   }
 });
 
+
+
 // Lista de partidas a las que el usuario puede unirse
 // Display debe manejarse en el front
 router.get('partida.browse', '/browse/:id', async (ctx) => {

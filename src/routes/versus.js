@@ -11,7 +11,7 @@ router.post("versus.crear", "/crear", async(ctx) => {
     try {
         console.log("\nentré a versus\n")
         
-        ó
+        
         const jugadores = await ctx.orm.Jugador.findAll({
             where: {partidaId: ctx.request.body.partidaId}
         });
