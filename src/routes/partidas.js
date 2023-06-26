@@ -24,6 +24,22 @@ router.get('partida.list', '/:id', async (ctx) => {
   }
 });
 
+router.get('partida.turn', '/turno/:id', async (ctx) => {
+  
+  try {
+    const partida = await ctx.orm.Partida.findOne({
+      where: {id: ctx.params.id}
+    });
+
+    
+    ctx.body = partida.turno;
+    ctx.status = 200;
+  } catch (error) {
+    ctx.body = error;
+    ctx.status = 404;
+  }
+});
+
 
 
 // Lista de partidas a las que el usuario puede unirse
@@ -88,6 +104,7 @@ router.post('partida.create', '/crear', async (ctx) => {
   }
 });
 
+// Unirse a partida
 router.post('partida.join', '/unirse', async (ctx) => {
   try {
     const jugador = await ctx.orm.Jugador.create({

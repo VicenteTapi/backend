@@ -3,7 +3,7 @@ const Router = require('koa-router');
 const router = new Router();
 
 // Recibe el id del jugador que activa el poder y se le otorga una estrella
-router.post('poder.estrella', '/estrella', async (ctx) => {
+router.post('poder.estrella', '/mas1', async (ctx) => {
   try {
     await ctx.orm.Jugador.decrement({ poder1: 1 }, { where: { id: ctx.request.body.jugadorId } });
     const jugador = await ctx.orm.Jugador.increment(
@@ -35,7 +35,7 @@ router.get('jugadores.get', '/:partidaId', async (ctx) => {
 
 // Recibe el id del jugador y de su victima (obtenido gracias al GET anterior)
 // Se intercambian posiciones
-router.post('poder.swap', '/swap', async (ctx) => {
+router.post('poder.swap', '/cambio', async (ctx) => {
   try {
     await ctx.orm.Jugador.decrement({ poder2: 1 }, { where: { id: ctx.request.body.jugadorId } });
 
@@ -73,7 +73,7 @@ router.post('poder.swap', '/swap', async (ctx) => {
 
 // Recibe el id del jugador, el id de su victima (obtenido gracias al GET)
 // y el tipo de dado que desea robar
-router.post('poder.robo', '/robar', async (ctx) => {
+router.post('poder.robo', '/robo', async (ctx) => {
   try {
     await ctx.orm.Jugador.decrement({ poder3: 1 }, { where: { id: ctx.request.body.jugadorId } });
 
