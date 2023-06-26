@@ -16,6 +16,22 @@ module.exports = {
       updatedAt: new Date(),
 
     },
+    {
+      nombre: 'castor',
+      clave: 'castor1',
+      wins: 0,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+
+    },
+    {
+      nombre: 'doge',
+      clave: 'doge1',
+      wins: 0,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+
+    },
   ]),
   down: (QueryInterface) => QueryInterface.bulkInsert('Users', null, {}),
 };

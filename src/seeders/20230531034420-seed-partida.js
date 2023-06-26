@@ -8,6 +8,14 @@ module.exports = {
       updatedAt: new Date(),
 
     },
+    {
+      ambiente: 2,
+      tiendaId: 2,
+      turno: 0,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+
+    }
   ]),
   down: (QueryInterface) => QueryInterface.bulkInsert('Partidas', null, {}),
 };
