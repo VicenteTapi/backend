@@ -1,15 +1,14 @@
 const Router = require('koa-router');
-const { Op } = require('sequelize');
 
 const router = new Router();
 
 // Lista de partidas asociadas al usuario
-router.get('partida.list', '/:id', async (ctx) => {
+router.get('partida.list', '/:userId', async (ctx) => {
   const lista = [];
   try {
     const jugadores = await ctx.orm.Jugador.findAll({
       include: [
-        { model: ctx.orm.User, required: true, where: { id: ctx.params.id } },
+        { model: ctx.orm.User, required: true, where: { id: ctx.params.userId } },
         { model: ctx.orm.Partida, required: true }],
     });
 
@@ -44,19 +43,29 @@ router.get('partida.turn', '/turno/:id', async (ctx) => {
 
 // Lista de partidas a las que el usuario puede unirse
 // Display debe manejarse en el front
-router.get('partida.browse', '/browse/:id', async (ctx) => {
-  const lista = [];
+router.get('partida.browse', '/browse/:userId', async (ctx) => {
+  idPartidas = []
+  lista = []
 
   try {
+    const partidas = await ctx.orm.Partida.findAll()
+
     const jugadores = await ctx.orm.Jugador.findAll({
       include: [
-        { model: ctx.orm.User, required: true, where: { id: { [Op.ne]: ctx.params.id } } },
+        { model: ctx.orm.User, required: true, where: { id: ctx.params.userId } },
         { model: ctx.orm.Partida, required: true }],
     });
 
-    jugadores.forEach((element) => {
-      lista.push(element.Partida);
+    jugadores.forEach(jugador => {
+      idPartidas.push(jugador.partidaId);
     });
+
+    partidas.forEach(partida => {
+      if (!idPartidas.includes(partida.id)) {
+        lista.push(partida)
+      }
+    });
+    
     ctx.body = lista;
     ctx.status = 200;
   } catch (error) {
