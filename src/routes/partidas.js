@@ -1,10 +1,10 @@
 const Router = require('koa-router');
 const { Op } = require('sequelize');
-
+const authUtils = require('../lib/auth/jwt')
 const router = new Router();
 
 // Lista de partidas asociadas al usuario
-router.get('partida.list', '/:id', async (ctx) => {
+router.get('partida.list', '/:id', authUtils.isUser, async (ctx) => {
   const lista = [];
   try {
     const jugadores = await ctx.orm.Jugador.findAll({
@@ -28,7 +28,7 @@ router.get('partida.list', '/:id', async (ctx) => {
 
 // Lista de partidas a las que el usuario puede unirse
 // Display debe manejarse en el front
-router.get('partida.browse', '/browse/:id', async (ctx) => {
+router.get('partida.browse', '/browse/:id', authUtils.isUser, async (ctx) => {
   const userId = ctx.params.id;
 
   try {
@@ -53,7 +53,7 @@ router.get('partida.browse', '/browse/:id', async (ctx) => {
 
 // Crear nueva Partida
 // Se debe crear una instancia de Tienda, Partida y Jugador
-router.post('partida.create', '/crear', async (ctx) => {
+router.post('partida.create', '/crear', authUtils.isUser, async (ctx) => {
   try {
     const tienda = await ctx.orm.Tienda.create({
       estrellas: 10,
@@ -90,7 +90,7 @@ router.post('partida.create', '/crear', async (ctx) => {
   }
 });
 
-router.post('partida.join', '/unirse', async (ctx) => {
+router.post('partida.join', '/unirse', authUtils.isUser, async (ctx) => {
   try {
     const jugador = await ctx.orm.Jugador.create({
       personaje: ctx.request.body.personaje,

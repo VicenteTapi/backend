@@ -18,14 +18,14 @@ router.del('user.delete', '/:id', authUtils.isAdmin, async (ctx) => {
       const user = await ctx.orm.User.findOne({ where: { id: ctx.params.id } });
       if (user) {
         await user.destroy();
-        ctx.status = 204; // No content
+        ctx.status = 204; 
       } else {
-        ctx.status = 404; // Not found
+        ctx.status = 404; 
         ctx.body = { error: 'User not found' };
       }
     } catch (error) {
       console.log(error)
-      ctx.status = 400; // Bad request
+      ctx.status = 400; 
       ctx.body = { error: 'Bad request' };
     }
 });
@@ -33,9 +33,9 @@ router.del('user.delete', '/:id', authUtils.isAdmin, async (ctx) => {
 router.del('user.deleteAll', '/', authUtils.isAdmin, async (ctx) => {
     try {
       await ctx.orm.User.destroy({ where: {}, truncate: true });
-      ctx.status = 204; // No content
+      ctx.status = 204; 
     } catch (error) {
-      ctx.status = 400; // Bad request
+      ctx.status = 400; 
       ctx.body = { error: 'Bad request' };
     }
 });

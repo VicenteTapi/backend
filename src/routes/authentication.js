@@ -6,11 +6,6 @@ dotenv.config();
 
 const router = new Router();
 
-// {
-//     "email": "micorreo@correo.com",
-//     "username": "pepito123",
-//     "password": "pepito321"
-// }
 
 router.post("authentication.signup", "/signup", async (ctx) => {
     const authInfo = ctx.request.body;
@@ -28,7 +23,8 @@ router.post("authentication.signup", "/signup", async (ctx) => {
             nombre: authInfo.nombre,
             clave: hashclave,
             wins: 0,
-            mail: authInfo.email
+            mail: authInfo.email,
+            isAdmin: false
         })
     } catch (error) {
         ctx.body = error;
@@ -41,6 +37,32 @@ router.post("authentication.signup", "/signup", async (ctx) => {
     };
     ctx.status = 201;
 })
+router.put("user.requestAdmin", "/requestAdmin", async (ctx) => {
+    const authInfo = ctx.request.body
+    let user = await ctx.orm.User.findOne({ where: { mail: authInfo.email } })
+    if (!user) {
+        ctx.body = `The user by the email '${authInfo.email}' was not found`;
+        ctx.status = 400;
+        return;
+    }
+    if (await bcrypt.compare(authInfo.clave, user.clave)) {
+        if(user.nombre=="admin" && user.mail=="admin@admin.com"){
+            user.isAdmin = true;
+            await user.save();
+            ctx.body = `The user '${user.nombre}' is now an admin`;
+            ctx.status = 200;
+            return;
+        }else{
+            ctx.body = "Only user 'admin' can perform this action";
+            ctx.status = 403;
+            return;
+        }
+    } else {
+        ctx.body = "Incorrect password";
+        ctx.status = 400;
+        return;
+    }
+});
 
 router.post("authentication.login", "/login", async (ctx) => {
     let user;
@@ -71,42 +93,29 @@ router.post("authentication.login", "/login", async (ctx) => {
         ctx.status = 400;
         return;
     }
-    // Creamos el JWT. Si quisieras agregar distintos scopes, como por ejemplo
-    // "admin", podrían hacer un llamado a la base de datos y cambiar el payload
-    // en base a eso.
-    if (user.nombre=="admin" && user.mail=="admin@admin.com"){
-        const expirationSeconds = 1 * 60 * 60 * 24;
-        const JWT_PRIVATE_KEY = process.env.JWT_SECRET;
-        var token = jwt.sign(
-            { scope: ['user', 'admin'] },
-            JWT_PRIVATE_KEY,
-            { subject: user.id.toString() },
-            { expiresIn: expirationSeconds }
-        );
-        ctx.body = {
-        "access_token": token,
-        "token_type": "Bearer",
-        "expires_in": expirationSeconds,
-        }
-        ctx.status = 200;
-    }
-    else{
-        const expirationSeconds = 1 * 60 * 60 * 24;
-        const JWT_PRIVATE_KEY = process.env.JWT_SECRET;
-        var token = jwt.sign(
-            { scope: ['user'] },
-            JWT_PRIVATE_KEY,
-            { subject: user.id.toString() },
-            { expiresIn: expirationSeconds }
-        );
-        ctx.body = {
-        "access_token": token,
-        "token_type": "Bearer",
-        "expires_in": expirationSeconds,
-        }
-        ctx.status = 200;
+
+    const expirationSeconds = 1 * 60 * 60 * 24;
+    const JWT_PRIVATE_KEY = process.env.JWT_SECRET;
+    let scope = ['user'];
+    
+    if (user.isAdmin) {
+        scope.push('admin');
     }
 
+    var token = jwt.sign(
+        { scope: scope },
+        JWT_PRIVATE_KEY,
+        { subject: user.id.toString(), expiresIn: expirationSeconds }
+    );
+
+    ctx.body = {
+        nombre: user.nombre,
+        email: user.mail,
+        "access_token": token,
+        "token_type": "Bearer",
+        "expires_in": expirationSeconds,
+    };
+    ctx.status = 200;
 })
 
 module.exports = router;

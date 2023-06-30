@@ -27,5 +27,6 @@ router.use(jwtMiddleware( { secret: process.env.JWT_SECRET } ))
 
 router.use('/users', users.routes());
 router.use('/admin', admin.routes());
+router.use('/partidas', partidas.routes());
 
 module.exports = router;
