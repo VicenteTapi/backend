@@ -13,7 +13,7 @@ router.get('partida.list', '/:userId', async (ctx) => {
     });
 
     jugadores.forEach((element) => {
-      lista.push(element.Partida);
+      lista.push(element);
     });
     ctx.body = lista;
     ctx.status = 200;
@@ -42,27 +42,38 @@ router.get('partida.turn', '/turno/:id', async (ctx) => {
 
 
 // Lista de partidas a las que el usuario puede unirse
-// Display debe manejarse en el front
 router.get('partida.browse', '/browse/:userId', async (ctx) => {
-  idPartidas = []
-  lista = []
+  idPartidas = [];
+  lista = [];
 
   try {
     const partidas = await ctx.orm.Partida.findAll()
 
-    const jugadores = await ctx.orm.Jugador.findAll({
+    const misJugadores = await ctx.orm.Jugador.findAll({
       include: [
         { model: ctx.orm.User, required: true, where: { id: ctx.params.userId } },
         { model: ctx.orm.Partida, required: true }],
     });
+    
+    const jugadores = await ctx.orm.Jugador.findAll({
+      include: [
+        { model: ctx.orm.User, required: true },
+        { model: ctx.orm.Partida, required: true }],
+      });
 
-    jugadores.forEach(jugador => {
-      idPartidas.push(jugador.partidaId);
+    misJugadores.forEach(jugador => {
+      idPartidas.push(jugador.partidaId)
     });
 
     partidas.forEach(partida => {
       if (!idPartidas.includes(partida.id)) {
-        lista.push(partida)
+        let personajes = []
+        jugadores.forEach(jugador => {
+          if (jugador.partidaId == partida.id) {
+            personajes.push(jugador.personaje)
+          }
+        });
+        lista.push([partida, personajes])
       }
     });
     
