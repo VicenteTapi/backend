@@ -1,9 +1,11 @@
 const Router = require('koa-router');
-
+const { Op } = require('sequelize');
+const authUtils = require('../lib/auth/jwt')
 const router = new Router();
 
 // Lista de partidas asociadas al usuario
-router.get('partida.list', '/:userId', async (ctx) => {
+router.get('partida.list', '/:id', authUtils.isUser, async (ctx) => {
+
   const lista = [];
   try {
     const jugadores = await ctx.orm.Jugador.findAll({
@@ -43,30 +45,23 @@ router.get('partida.turn', '/turno/:id', async (ctx) => {
 
 // Lista de partidas a las que el usuario puede unirse
 // Display debe manejarse en el front
-router.get('partida.browse', '/browse/:userId', async (ctx) => {
-  idPartidas = []
-  lista = []
+router.get('partida.browse', '/browse/:id', authUtils.isUser, async (ctx) => {
+  const userId = ctx.params.id;
 
   try {
-    const partidas = await ctx.orm.Partida.findAll()
-
-    const jugadores = await ctx.orm.Jugador.findAll({
-      include: [
-        { model: ctx.orm.User, required: true, where: { id: ctx.params.userId } },
-        { model: ctx.orm.Partida, required: true }],
+    const allMatches = await ctx.orm.Partida.findAll({
+      include: [{
+        model: ctx.orm.Jugador,
+        include: ctx.orm.User
+      }]
     });
 
-    jugadores.forEach(jugador => {
-      idPartidas.push(jugador.partidaId);
+    const availableMatches = allMatches.filter(match => {
+      return !match.Jugadores.some(jugador => jugador.User && jugador.User.id === userId);
     });
 
-    partidas.forEach(partida => {
-      if (!idPartidas.includes(partida.id)) {
-        lista.push(partida)
-      }
-    });
-    
-    ctx.body = lista;
+    ctx.body = availableMatches;
+
     ctx.status = 200;
   } catch (error) {
     ctx.body = error;
@@ -76,7 +71,7 @@ router.get('partida.browse', '/browse/:userId', async (ctx) => {
 
 // Crear nueva Partida
 // Se debe crear una instancia de Tienda, Partida y Jugador
-router.post('partida.create', '/crear', async (ctx) => {
+router.post('partida.create', '/crear', authUtils.isUser, async (ctx) => {
   try {
     const tienda = await ctx.orm.Tienda.create({
       estrellas: 10,
@@ -113,8 +108,8 @@ router.post('partida.create', '/crear', async (ctx) => {
   }
 });
 
-// Unirse a partida
-router.post('partida.join', '/unirse', async (ctx) => {
+router.post('partida.join', '/unirse', authUtils.isUser, async (ctx) => {
+
   try {
     const jugador = await ctx.orm.Jugador.create({
       personaje: ctx.request.body.personaje,
