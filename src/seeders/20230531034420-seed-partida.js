@@ -1,7 +1,7 @@
 module.exports = {
   up: (QueryInterface) => QueryInterface.bulkInsert('Partidas', [
     {
-      ambiente: 1,
+      ambiente: "lava",
       tiendaId: 1,
       turno: 0,
       createdAt: new Date(),
@@ -9,7 +9,7 @@ module.exports = {
 
     },
     {
-      ambiente: 2,
+      ambiente: "selva",
       tiendaId: 2,
       turno: 0,
       createdAt: new Date(),
