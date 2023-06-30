@@ -29,19 +29,21 @@ router.get('partida.list', '/:id', async (ctx) => {
 // Lista de partidas a las que el usuario puede unirse
 // Display debe manejarse en el front
 router.get('partida.browse', '/browse/:id', async (ctx) => {
-  const lista = [];
+  const userId = ctx.params.id;
 
   try {
-    const jugadores = await ctx.orm.Jugador.findAll({
-      include: [
-        { model: ctx.orm.User, required: true, where: { id: { [Op.ne]: ctx.params.id } } },
-        { model: ctx.orm.Partida, required: true }],
+    const allMatches = await ctx.orm.Partida.findAll({
+      include: [{
+        model: ctx.orm.Jugador,
+        include: ctx.orm.User
+      }]
     });
 
-    jugadores.forEach((element) => {
-      lista.push(element.Partida);
+    const availableMatches = allMatches.filter(match => {
+      return !match.Jugadores.some(jugador => jugador.User && jugador.User.id === userId);
     });
-    ctx.body = lista;
+
+    ctx.body = availableMatches;
     ctx.status = 200;
   } catch (error) {
     ctx.body = error;

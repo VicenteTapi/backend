@@ -11,7 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsTo(models.Jugador, {
-        foreignKey: 'jugadorId'
+        foreignKey: 'jugadorId',
+        onDelete: 'CASCADE'  // Esto eliminará un `Versus` cuando se elimine el `Jugador` asociado
       });
       this.belongsTo(models.Partida, {
         foreignKey: 'partidaId'
