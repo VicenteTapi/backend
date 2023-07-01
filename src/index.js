@@ -1,16 +1,16 @@
-const dotenv = require('dotenv');
-const app = require('./app');
-const db = require('./models');
+import { config } from 'dotenv';
+import app, { listen } from './app';
+import { sequelize } from './models';
 
-dotenv.config();
+config();
 
 const PORT = process.env.PORT || 3000;
 
-db.sequelize
+sequelize
   .authenticate()
   .then(() => {
     console.log('Connection to the database has been established successfully.');
-    app.listen(PORT, (err) => {
+    listen(PORT, (err) => {
       if (err) {
         return console.error('Failed', err);
       }
