@@ -14,13 +14,8 @@ const admin = require('./routes/admin.js')
 const router = new Router();
 
 
-router.use('/partidas', partidas.routes());
-router.use('/tienda', tienda.routes());
-router.use('/poderes', poderes.routes());
-router.use("/dado", dado.routes());
-router.use("/versus", versus.routes());
-router.use("/tablero", tablero.routes());
-router.use("/jugadores", jugadores.routes());
+
+
 router.use(authRoutes.routes());
 
 router.use(jwtMiddleware( { secret: process.env.JWT_SECRET } ))
@@ -28,5 +23,11 @@ router.use(jwtMiddleware( { secret: process.env.JWT_SECRET } ))
 router.use('/users', users.routes());
 router.use('/admin', admin.routes());
 router.use('/partidas', partidas.routes());
+router.use('/tienda', tienda.routes());
+router.use('/poderes', poderes.routes());
+router.use("/dado", dado.routes());
+router.use("/versus", versus.routes());
+router.use("/tablero", tablero.routes());
+router.use("/jugadores", jugadores.routes());
 
 module.exports = router;

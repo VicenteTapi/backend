@@ -1,8 +1,11 @@
+'use strict';
+
+/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   up: (QueryInterface) => QueryInterface.bulkInsert('Partidas', [
     {
       ambiente: "lava",
-      tiendaId: 1,
+      tiendaId: 3,
       turno: 0,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -10,7 +13,7 @@ module.exports = {
     },
     {
       ambiente: "selva",
-      tiendaId: 2,
+      tiendaId: 4,
       turno: 0,
       createdAt: new Date(),
       updatedAt: new Date(),

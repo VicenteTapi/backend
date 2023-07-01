@@ -6,7 +6,7 @@ dotenv.config();
 
 const router = new Router();
 
-
+//Código basado en las capsulas de la ayudantía
 router.post("authentication.signup", "/signup", async (ctx) => {
     const authInfo = ctx.request.body;
     let user = await ctx.orm.User.findOne({ where: { mail: authInfo.email } })
@@ -46,7 +46,7 @@ router.put("user.requestAdmin", "/requestAdmin", async (ctx) => {
         return;
     }
     if (await bcrypt.compare(authInfo.clave, user.clave)) {
-        if(user.nombre=="admin" && user.mail=="admin@admin.com"){
+        if(user.nombre=="admin" && user.mail=="admin@admin.cl"){
             user.isAdmin = true;
             await user.save();
             ctx.body = `The user '${user.nombre}' is now an admin`;
@@ -63,6 +63,7 @@ router.put("user.requestAdmin", "/requestAdmin", async (ctx) => {
         return;
     }
 });
+
 
 router.post("authentication.login", "/login", async (ctx) => {
     let user;
@@ -114,6 +115,7 @@ router.post("authentication.login", "/login", async (ctx) => {
         "access_token": token,
         "token_type": "Bearer",
         "expires_in": expirationSeconds,
+        userId: user.id
     };
     ctx.status = 200;
 })

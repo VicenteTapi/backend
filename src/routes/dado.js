@@ -1,5 +1,5 @@
 const Router = require('koa-router');
-
+const authUtils = require('../lib/auth/jwt')
 const router = new Router();
 
 const casillas = {
@@ -46,7 +46,7 @@ const tablero = {
 
 const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
-router.post('dado.lanzar', '/lanzar', async (ctx) => {
+router.post('dado.lanzar', '/lanzar', authUtils.isUser, async (ctx) => {
   try {
     const jugador = await ctx.orm.Jugador.findOne({
       where: { id: ctx.request.body.jugadorId },

@@ -29,7 +29,26 @@ router.del('user.delete', '/:id', authUtils.isAdmin, async (ctx) => {
       ctx.body = { error: 'Bad request' };
     }
 });
-  
+router.put("user.hacerAdmin", "/haceradmin", async (ctx) => {
+    try{
+        const authInfo = ctx.request.body
+        let user = await ctx.orm.User.findOne({ where: { id: authInfo.userId } })
+        if (!user) {
+            ctx.body = `The user by the id '${authInfo.userId}' was not found`;
+            ctx.status = 400;
+            return;
+        }
+        user.isAdmin = true;
+        await user.save();
+        ctx.body = `The user '${user.nombre}' is now an admin`;
+        ctx.status = 200;
+    }catch (error) {
+        ctx.status = 400; 
+        ctx.body = { error: 'Bad request' };
+      }
+    
+
+});
 router.del('user.deleteAll', '/', authUtils.isAdmin, async (ctx) => {
     try {
       await ctx.orm.User.destroy({ where: {}, truncate: true });

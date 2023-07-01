@@ -12,11 +12,17 @@ module.exports = {
       nombre: {
         type: Sequelize.STRING
       },
+      mail: {
+        type: Sequelize.STRING
+      },
       clave: {
         type: Sequelize.STRING
       },
       wins: {
         type: Sequelize.INTEGER
+      },
+      isAdmin: {
+        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,

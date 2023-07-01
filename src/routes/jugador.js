@@ -1,8 +1,9 @@
 const Router = require('koa-router');
 const { Op } = require('sequelize');
+const authUtils = require('../lib/auth/jwt')
 const router = new Router();
 
-router.get('jugador.obtener', '/:jugadorId', async (ctx) => {
+router.get('jugador.obtener', '/:jugadorId', authUtils.isUser, async (ctx) => {
     console.log("entre al get");
     try {
       const principal = await ctx.orm.Jugador.findOne({

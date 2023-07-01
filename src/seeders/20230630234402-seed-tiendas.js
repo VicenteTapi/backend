@@ -1,3 +1,6 @@
+'use strict';
+
+/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   up: (QueryInterface) => QueryInterface.bulkInsert('Tiendas', [
     {

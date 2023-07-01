@@ -1,9 +1,9 @@
 const Router = require('koa-router');
 const { Op } = require('sequelize');
-
+const authUtils = require('../lib/auth/jwt')
 const router = new Router();
 
-router.get('tablero.obtener', '/:jugadorId', async (ctx) => {
+router.get('tablero.obtener', '/:jugadorId', authUtils.isUser, async (ctx) => {
   const tableros = {
     "selva":{
       0: '1',
