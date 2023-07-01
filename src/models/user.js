@@ -18,10 +18,10 @@ module.exports = (sequelize, DataTypes) => {
   }
   User.init({
     nombre: DataTypes.STRING,
+    mail: DataTypes.STRING,
     clave: DataTypes.STRING,
     wins: DataTypes.INTEGER,
-    mail: DataTypes.STRING,
-    isAdmin: DataTypes.BOOLEAN,   
+    isAdmin: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'User',

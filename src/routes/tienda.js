@@ -1,5 +1,5 @@
 const Router = require('koa-router');
-
+const authUtils = require('../lib/auth/jwt')
 const router = new Router();
 
 const precios = {
@@ -14,7 +14,7 @@ const precios = {
 // GET del inventario de la tienda, para poder comprar se debe estar dentro de una partida,
 // por lo que se asume que partidaId estará almecenada en alguna cookie
 // El precio y variedad es siempre el mismo por lo que se almacena como array en el front
-router.get('tienda.show', '/:partidaId', async (ctx) => {
+router.get('tienda.show', '/:partidaId', authUtils.isUser, async (ctx) => {
   try {
     const stock = await ctx.orm.Partida.findOne({
       where: { id: ctx.params.partidaId },
@@ -32,7 +32,7 @@ router.get('tienda.show', '/:partidaId', async (ctx) => {
 //  también almacenado en una teórica cookie
 // Inspiración:
 // https://stackoverflow.com/questions/51944160/sequelize-update-row-where-col-dynamic-variable
-router.post('tienda.comprar', '/comprar', async (ctx) => {
+router.post('tienda.comprar', '/comprar', authUtils.isUser, async (ctx) => {
   try {
     const tienda = await ctx.orm.Partida.findOne({
       where: { id: ctx.request.body.partidaId },
