@@ -51,6 +51,18 @@ router.post('dado.lanzar', '/lanzar', async (ctx) => {
     const jugador = await ctx.orm.Jugador.findOne({
       where: { id: ctx.request.body.jugadorId },
     });
+
+    if (ctx.request.body.tipo_de_dado != "dadoNormal") {
+
+      updateDado = {};
+      updateDado[ctx.request.body.tipo_de_dado] = 1;
+      const inventario = await ctx.orm.Jugador.decrement(
+        updateDado,
+        { where: { id: ctx.request.body.jugadorId } },
+      );
+    }
+
+
     const informacionRelevante = {
       actualPosicion: '',
       actividadCasilla: '',
