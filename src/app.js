@@ -10,7 +10,7 @@ const app = new Koa();
 
 app.context.orm = orm;
 
-// app.use(cors);
+app.use(cors());
 
 // Middlewares de koa
 app.use(KoaLogger());

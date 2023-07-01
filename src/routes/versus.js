@@ -1,17 +1,17 @@
 const Router = require('koa-router');
 const { Op } = require("sequelize");
-
+const authUtils = require('../lib/auth/jwt')
 const router = new Router();
 
 
 let getRandomInt = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-router.post("versus.crear", "/crear", async(ctx) => {
+router.post("versus.crear", "/crear", authUtils.isUser, async(ctx) => {
     try {
         console.log("\nentré a versus\n")
         
-        ó
+        
         const jugadores = await ctx.orm.Jugador.findAll({
             where: {partidaId: ctx.request.body.partidaId}
         });
@@ -39,7 +39,7 @@ router.post("versus.crear", "/crear", async(ctx) => {
     }
 })
 
-router.post("versus.jugar", "/jugar", async(ctx) => {
+router.post("versus.jugar", "/jugar", authUtils.isUser, async(ctx) => {
     try {
         console.log("\nentré a jugar\n")
 

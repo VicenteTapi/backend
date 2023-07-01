@@ -11,14 +11,17 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.hasMany(models.Jugador, {
-        foreignKey: 'id'
+        foreignKey: 'id',
+        onDelete: 'CASCADE',  // Esto hará que todos los `Jugadores` asociados sean eliminados cuando se elimina un `User`
       });
     }
   }
   User.init({
     nombre: DataTypes.STRING,
+    mail: DataTypes.STRING,
     clave: DataTypes.STRING,
-    wins: DataTypes.INTEGER
+    wins: DataTypes.INTEGER,
+    isAdmin: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'User',
