@@ -11,13 +11,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsTo(models.User, {
-        foreignKey: 'userId'
+        foreignKey: 'userId',
+        onDelete: 'CASCADE',  // Esto eliminará un `Jugador` cuando se elimine el `User` asociado
       });
       this.belongsTo(models.Partida, {
         foreignKey: 'partidaId'
       });
       this.hasMany(models.Versus, {
-        foreignKey: 'id'
+        foreignKey: 'id',
+        onDelete: 'CASCADE',  // Esto hará que todos los `Versus` asociados sean eliminados cuando se elimina un `Jugador`
       });
     }
   }
