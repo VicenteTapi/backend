@@ -54,7 +54,14 @@ router.post('tienda.comprar', '/comprar', async (ctx) => {
       { where: { id: ctx.request.body.jugadorId } },
     ).then();
 
-    ctx.body = [stock, saldo];
+    const updateInventario = {};
+    updateInventario[ctx.request.body.item] = 1;
+    const inventario = await ctx.orm.Jugador.increment(
+      updateInventario,
+      { where: { id: ctx.request.body.jugadorId } },
+    ).then();
+
+    ctx.body = [stock, saldo, inventario];
     ctx.status = 201;
   } catch (error) {
     ctx.body = error;
