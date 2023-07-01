@@ -4,7 +4,7 @@ const authUtils = require('../lib/auth/jwt')
 const router = new Router();
 
 // Lista de partidas asociadas al usuario
-router.get('partida.list', '/:id', authUtils.isUser, async (ctx) => {
+router.get('partida.list', '/:userId', authUtils.isUser, async (ctx) => {
 
   const lista = [];
   try {
@@ -25,7 +25,7 @@ router.get('partida.list', '/:id', authUtils.isUser, async (ctx) => {
   }
 });
 
-router.get('partida.turn', '/turno/:id', async (ctx) => {
+router.get('partida.turn', '/turno/:id', authUtils.isUser, async (ctx) => {
   
   try {
     const partida = await ctx.orm.Partida.findOne({
